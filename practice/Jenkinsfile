@@ -33,5 +33,34 @@ pipeline {
             }
 
         }
+        stage('Deploy') {
+            input {
+                message 'Should we continue?'
+                ok "yes, We should"
+                submitter "Arun"
+                 parameters{
+                    string(name: 'PERSON', defaultValue: 'Jenkins', description: 'Who Should I say Hello to?')
+                }
+            }
+            steps{
+                script{
+                    echo "Hello, ${PERSON}"
+                    echo "Deploying"
+                }
+            }
+        }
+    }
+
+    post{
+        always {
+            echo 'I will be run always'
+            deleteDir()
+        }
+        success{
+            echo "Pipeline is success"
+        }
+        failure{
+            echo "Pipeline is failed"
+        }
     }
 }
